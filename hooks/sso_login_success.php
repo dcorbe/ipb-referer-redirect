@@ -20,7 +20,7 @@ class hook45 extends _HOOK_CLASS_
         {
             $rurl = $_SESSION['referer'];
           	unset($_SESSION['referer']);
-			\IPS\Output::i()->redirect(\IPS\Http\Url::external($rurl));         	
+			\IPS\Output::i()->redirect(\IPS\Http\Url::external($rurl));
         }
         return $ret;
 	}
