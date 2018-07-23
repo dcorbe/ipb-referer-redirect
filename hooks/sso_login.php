@@ -19,24 +19,10 @@ class hook13 extends _HOOK_CLASS_
      */
     public function __construct( \IPS\Http\Url $url=NULL, $type=1 )
     {
-        try
+        if (isset($_GET['referer']))
         {
-            if (isset($_GET['referer']))
-            {
-                $_SESSION['referer'] = $_GET['referer'];
-            }
-            return parent::__construct( $url, $type );
+            $_SESSION['referer'] = $_GET['referer'];
         }
-        catch ( \RuntimeException $e )
-        {
-            if ( method_exists( get_parent_class(), __FUNCTION__ ) )
-            {
-                return call_user_func_array( 'parent::' . __FUNCTION__, func_get_args() );
-            }
-            else
-            {
-                throw $e;
-            }
-        }
+        return parent::__construct( $url, $type );
     }
 }

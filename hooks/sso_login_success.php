@@ -15,27 +15,13 @@ class hook12 extends _HOOK_CLASS_
      */
     public function process()
     {
-        try
+        $ret = parent::process();
+        if (isset($_SESSION['referer']))
         {
-            $ret = parent::process();
-            if (isset($_SESSION['referer']))
-            {
-                $rurl = $_SESSION['referer'];
-                unset($_SESSION['referer']);
-                \IPS\Output::i()->redirect(\IPS\Http\Url::external($rurl));
-            }
-            return $ret;
+            $rurl = $_SESSION['referer'];
+            unset($_SESSION['referer']);
+            \IPS\Output::i()->redirect(\IPS\Http\Url::external($rurl));
         }
-        catch ( \RuntimeException $e )
-        {
-            if ( method_exists( get_parent_class(), __FUNCTION__ ) )
-            {
-                return call_user_func_array( 'parent::' . __FUNCTION__, func_get_args() );
-            }
-            else
-            {
-                throw $e;
-            }
-        }
+        return $ret;
     }
 }
