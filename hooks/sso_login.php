@@ -6,7 +6,7 @@ if ( !defined( '\IPS\SUITE_UNIQUE_KEY' ) )
     exit;
 }
 
-class hook46 extends _HOOK_CLASS_
+class hook13 extends _HOOK_CLASS_
 {
 
     /**
@@ -19,11 +19,24 @@ class hook46 extends _HOOK_CLASS_
      */
     public function __construct( \IPS\Http\Url $url=NULL, $type=1 )
     {
-        if (isset($_GET['referer']))
+        try
         {
-            $_SESSION['referer'] = $_GET['referer'];
+            if (isset($_GET['referer']))
+            {
+                $_SESSION['referer'] = $_GET['referer'];
+            }
+            return parent::__construct( $url, $type );
         }
-        return parent::__construct( $url, $type );
+        catch ( \RuntimeException $e )
+        {
+            if ( method_exists( get_parent_class(), __FUNCTION__ ) )
+            {
+                return call_user_func_array( 'parent::' . __FUNCTION__, func_get_args() );
+            }
+            else
+            {
+                throw $e;
+            }
+        }
     }
-
 }
